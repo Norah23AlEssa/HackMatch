@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HackMatch AI — Find Hackathons Built for You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="hackmatch_v3.css"/>
+</head>
+<body>
+
+  <!-- NOTIFICATION BAR -->
+  <div class="notif-bar" id="notif-bar">
+    <span data-en="🎉 HackMatch AI is now live for GCC! Be among the first 1,000 users and get 3 months Premium free."
+          data-ar="🎉 HackMatch AI متاح الآن لدول الخليج! كن من أول 1,000 مستخدم واحصل على 3 أشهر مجانية.">
+      🎉 HackMatch AI is now live for GCC! Be among the first 1,000 users and get 3 months Premium free.
+    </span>
+    <button class="notif-close" id="notif-close" aria-label="Close">✕</button>
+  </div>
+
+  <!-- SAVE BUTTON (top-right) -->
+  <button class="save-hackathons-btn" id="save-hackathons-btn" onclick="openSavedPopup()" title="View Saved Hackathons">
+    🔖 Saved <span class="save-count" id="save-count">0</span>
+  </button>
+
+  <!-- USER DASHBOARD POPUP -->
+  <div class="user-dashboard-popup" id="user-dashboard-popup">
+    <div class="user-dashboard-inner">
+      <div class="user-dashboard-header">
+        <div class="user-dashboard-title">👤 My Dashboard</div>
+        <button class="user-dashboard-close" onclick="closeUserDashboardPopup()">✕</button>
+      </div>
+      <div class="user-dashboard-body">
+        <div class="user-layout">
+          <div class="user-sidebar">
+            <button class="user-tab-btn active" data-utab="settings" onclick="switchUserTab('settings')"><span class="tab-icon">⚙️</span> Settings</button>
+            <button class="user-tab-btn" data-utab="progress" onclick="switchUserTab('progress')"><span class="tab-icon">📊</span> Progress</button>
+            <button class="user-tab-btn" data-utab="skillbooster" onclick="switchUserTab('skillbooster')"><span class="tab-icon">⚡</span> Skill Booster AI</button>
+            <button class="user-tab-btn" data-utab="github" onclick="switchUserTab('github')"><span class="tab-icon">🐙</span> GitHub Connect</button>
+          </div>
+          <div class="user-panel" id="popup-user-panel">
+            <!-- Content injected from main user section -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav id="main-nav">
+    <a href="#" class="logo" aria-label="HackMatch Home">
+      <div class="logo-icon">H</div>
+      <span class="logo-text">Hack<span>Match</span></span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#how"         data-en="How it Works"   data-ar="كيف يعمل">How it Works</a></li>
+      <li><a href="#features"    data-en="Features"       data-ar="المميزات">Features</a></li>
+      <li><a href="#vision2030"  data-en="Vision 2030"    data-ar="رؤية 2030">Vision 2030</a></li>
+      <li><a href="#gcc"         data-en="GCC Events"     data-ar="فعاليات الخليج">GCC Events</a></li>
+      <li><a href="#abroad"      data-en="Abroad"         data-ar="الخارج">Abroad</a></li>
+      <li><a href="#partner"     data-en="Find Partners"  data-ar="إيجاد شركاء">Find Partners</a></li>
+      <li><a href="#women-tech"  data-en="Women in Tech"  data-ar="المرأة في التقنية">Women in Tech</a></li>
+      <li><a href="#dashboard"   data-en="Dashboard"      data-ar="لوحة التحكم">Dashboard</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="lang-toggle" role="group" aria-label="Language selector">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn"        id="btn-ar" onclick="setLang('ar')">ع</button>
+      </div>
+      <div class="theme-toggle-wrap" title="Toggle dark/light mode">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"></button>
+      </div>
+      <a href="#" class="btn-outline" id="nav-signin" data-en="Sign In" data-ar="تسجيل الدخول" onclick="openModal(event,'signin')">Sign In</a>
+      <a href="#" class="btn-primary" id="nav-getstarted" data-en="Get Started" data-ar="ابدأ الآن" onclick="openModal(event,'signup')">Get Started →</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-decor"></div>
+    <div class="hero-decor-2"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span data-en="AI-Powered · GCC & Global Hackathon Matching" data-ar="مطابقة الهاكاثون بالذكاء الاصطناعي · الخليج والعالم">AI-Powered · GCC & Global Hackathon Matching</span>
+      </div>
+      <h1 class="hero-title">
+        <span data-en="Find Hackathons <em>Built</em> for You" data-ar="اكتشف الهاكاثونات <em>المصممة</em> لك">Find Hackathons <em>Built</em> for You</span>
+      </h1>
+      <p class="hero-sub" data-en="HackMatch AI connects Saudi Arabia and GCC students with the right hackathons — locally in Riyadh, Dubai, and beyond, and globally across the world's top competitions." data-ar="يربط HackMatch AI طلاب المملكة ودول الخليج بالهاكاثونات المناسبة — محلياً في الرياض ودبي وأبعد من ذلك، وعالمياً في أبرز المسابقات.">
+        HackMatch AI connects Saudi Arabia and GCC students with the right hackathons — locally in Riyadh, Dubai, and beyond, and globally across the world's top competitions.
+      </p>
+      <div class="hero-actions">
+        <a href="#profile" class="btn-hero btn-hero-primary" data-en="Build Your Profile →" data-ar="أنشئ ملفك الشخصي ←">Build Your Profile →</a>
+        <a href="#gcc" class="btn-hero btn-hero-secondary" data-en="🗺️ GCC Events" data-ar="🗺️ فعاليات الخليج">🗺️ GCC Events</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num" data-count="12000">0</span>
+          <span class="stat-label" data-en="Hackathons Listed" data-ar="هاكاثون مدرج">Hackathons Listed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" data-count="340">0</span>
+          <span class="stat-label" data-en="GCC Events (2026)" data-ar="فعالية خليجية 2026">GCC Events (2026)</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" data-suffix="%" data-count="92">0</span>
+          <span class="stat-label" data-en="Match Accuracy" data-ar="دقة المطابقة">Match Accuracy</span>
+        </div>
+      </div>
+    </div>
+    <!-- Floating Cards -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="match-card">
+        <div class="card-top">
+          <span class="card-event-name">Saudi LEAP Hackathon</span>
+          <span class="match-badge">96%</span>
+        </div>
+        <div class="card-tags"><span class="tag">AI / ML</span><span class="tag">Riyadh</span><span class="tag">SAR 200K</span></div>
+        <div class="card-meta"><span>📅 Feb 9, 2026</span><span>🏆 SAR 200,000</span></div>
+        <div class="match-bar-wrap"><div class="match-bar" style="width:96%"></div></div>
+      </div>
+      <div class="match-card card-offset">
+        <div class="card-top">
+          <span class="card-event-name">GITEX Future Hack</span>
+          <span class="match-badge">89%</span>
+        </div>
+        <div class="card-tags"><span class="tag">Fintech</span><span class="tag">Dubai</span><span class="tag">Hybrid</span></div>
+        <div class="card-meta"><span>📅 Oct 13, 2026</span><span>🏆 $75,000</span></div>
+        <div class="match-bar-wrap"><div class="match-bar" style="width:89%"></div></div>
+      </div>
+      <div class="match-card">
+        <div class="card-top">
+          <span class="card-event-name">MIT Hacking Medicine</span>
+          <span class="match-badge">83%</span>
+        </div>
+        <div class="card-tags"><span class="tag">HealthTech</span><span class="tag">Boston</span><span class="tag">Abroad</span></div>
+        <div class="card-meta"><span>📅 Mar 14, 2026</span><span>🏆 $35,000</span></div>
+        <div class="match-bar-wrap"><div class="match-bar" style="width:83%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section-center">
+      <span class="section-label" data-en="Process" data-ar="العملية">Process</span>
+      <h2 class="section-title" data-en="From Profile to Perfect Match" data-ar="من الملف الشخصي إلى المطابقة المثالية">From Profile to Perfect Match</h2>
+      <p class="section-sub" data-en="Four simple steps and you'll never miss a relevant hackathon again." data-ar="أربع خطوات بسيطة ولن تفوتك أي هاكاثون ملائمة بعد الآن.">Four simple steps and you'll never miss a relevant hackathon again.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-step fade-up" style="--delay:.1s">
+        <span class="step-number">01</span><span class="step-icon">👤</span>
+        <h3 class="step-title" data-en="Build Your Profile" data-ar="أنشئ ملفك الشخصي">Build Your Profile</h3>
+        <p class="step-desc" data-en="Add your skills, interests, experience level, and location within the GCC. GitHub and portfolio links help fine-tune your matches." data-ar="أضف مهاراتك واهتماماتك ومستوى خبرتك وموقعك في الخليج.">Add your skills, interests, experience level, and location within the GCC. GitHub and portfolio links help fine-tune your matches.</p>
+      </div>
+      <div class="how-step fade-up" style="--delay:.2s">
+        <span class="step-number">02</span><span class="step-icon">🤖</span>
+        <h3 class="step-title" data-en="AI Analyzes Your Fit" data-ar="يحلل الذكاء الاصطناعي توافقك">AI Analyzes Your Fit</h3>
+        <p class="step-desc" data-en="Our engine calculates match scores across skill overlap, proficiency, interests, location (GCC priority + abroad), and experience — in under 2 seconds." data-ar="يحسب محركنا درجات التوافق عبر المهارات والاهتمامات والموقع الجغرافي في ثوانٍ.">Our engine calculates match scores across skill overlap, proficiency, interests, location (GCC priority + abroad), and experience — in under 2 seconds.</p>
+      </div>
+      <div class="how-step fade-up" style="--delay:.3s">
+        <span class="step-number">03</span><span class="step-icon">🎯</span>
+        <h3 class="step-title" data-en="Explore Your Dashboard" data-ar="استعرض لوحة التحكم">Explore Your Dashboard</h3>
+        <p class="step-desc" data-en="Browse ranked hackathons with match percentages, deadlines, prize pools, and skill alignments — filtered for GCC and global opportunities." data-ar="تصفح الهاكاثونات المرتبة مع فرص الخليج والعالم.">Browse ranked hackathons with match percentages, deadlines, prize pools, and skill alignments — filtered for GCC and global opportunities.</p>
+      </div>
+      <div class="how-step fade-up" style="--delay:.4s">
+        <span class="step-number">04</span><span class="step-icon">🔔</span>
+        <h3 class="step-title" data-en="Never Miss a Deadline" data-ar="لا تفوتك أي موعد نهائي">Never Miss a Deadline</h3>
+        <p class="step-desc" data-en="Smart notifications alert you when new high-match events drop, deadlines approach, or prize pools exceed your threshold — in both Arabic and English." data-ar="تنبيهات ذكية بالعربية والإنجليزية للمواعيد النهائية والفعاليات الجديدة.">Smart notifications alert you when new high-match events drop, deadlines approach, or prize pools exceed your threshold — in both Arabic and English.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="features-header">
+      <div>
+        <span class="section-label" data-en="Features" data-ar="المميزات">Features</span>
+        <h2 class="section-title" data-en="Everything You Need to Win" data-ar="كل ما تحتاجه للفوز">Everything You Need to Win</h2>
+      </div>
+      <p class="section-sub" data-en="A complete toolkit for discovering, tracking, and succeeding at hackathons — in Saudi Arabia, GCC, and globally." data-ar="مجموعة أدوات متكاملة للنجاح في الهاكاثونات محلياً وعالمياً.">A complete toolkit for discovering, tracking, and succeeding at hackathons — in Saudi Arabia, GCC, and globally.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card large fade-up">
+        <div class="feat-card-content">
+          <div class="feat-icon">🧠</div>
+          <h3 class="feat-title" data-en="AI Matching Engine" data-ar="محرك المطابقة بالذكاء الاصطناعي">AI Matching Engine</h3>
+          <p class="feat-desc" data-en="Our weighted scoring model evaluates five dimensions to compute a 0–100% match score for every hackathon, with GCC-aware geographic weighting." data-ar="يقيّم نموذجنا خمسة أبعاد لحساب نسبة تطابق دقيقة مع أولوية للفعاليات الخليجية.">Our weighted scoring model evaluates five dimensions to compute a 0–100% match score for every hackathon, with GCC-aware geographic weighting.</p>
+          <ul class="feat-list">
+            <li data-en="Skill overlap percentage" data-ar="نسبة تداخل المهارات">Skill overlap percentage</li>
+            <li data-en="Proficiency alignment" data-ar="توافق مستوى الكفاءة">Proficiency alignment</li>
+            <li data-en="Interest & domain match" data-ar="تطابق الاهتمامات والمجال">Interest &amp; domain match</li>
+            <li data-en="GCC + global geographic weighting" data-ar="ترجيح جغرافي خليجي وعالمي">GCC + global geographic weighting</li>
+            <li data-en="Experience compatibility score" data-ar="درجة توافق الخبرة">Experience compatibility score</li>
+          </ul>
+        </div>
+        <div class="match-breakdown-panel">
+          <div class="breakdown-title" data-en="Your Match Breakdown" data-ar="تفاصيل تطابقك">Your Match Breakdown</div>
+          <div class="breakdown-bars" id="breakdown-bars">
+            <div class="breakdown-row">
+              <div class="breakdown-meta"><span data-en="Skill Overlap" data-ar="تداخل المهارات">Skill Overlap</span><span class="breakdown-pct">92%</span></div>
+              <div class="bdown-bar-wrap"><div class="bdown-bar" data-pct="92"></div></div>
+            </div>
+            <div class="breakdown-row">
+              <div class="breakdown-meta"><span data-en="Interest Alignment" data-ar="توافق الاهتمامات">Interest Alignment</span><span class="breakdown-pct">87%</span></div>
+              <div class="bdown-bar-wrap"><div class="bdown-bar" data-pct="87"></div></div>
+            </div>
+            <div class="breakdown-row">
+              <div class="breakdown-meta"><span data-en="Experience Fit" data-ar="ملاءمة الخبرة">Experience Fit</span><span class="breakdown-pct">95%</span></div>
+              <div class="bdown-bar-wrap"><div class="bdown-bar" data-pct="95"></div></div>
+            </div>
+            <div class="breakdown-row">
+              <div class="breakdown-meta"><span data-en="GCC Location Score" data-ar="درجة الموقع الخليجي">GCC Location Score</span><span class="breakdown-pct">98%</span></div>
+              <div class="bdown-bar-wrap"><div class="bdown-bar" data-pct="98"></div></div>
+            </div>
+          </div>
+          <div class="breakdown-total">
+            <span data-en="Overall Match" data-ar="التطابق الإجمالي">Overall Match</span>
+            <span class="breakdown-score">96%</span>
+          </div>
+        </div>
+      </div>
+      <div class="feat-card fade-up" style="--delay:.1s">
+        <div class="feat-icon">🗃️</div>
+        <h3 class="feat-title" data-en="Rich GCC & Global Database" data-ar="قاعدة بيانات خليجية وعالمية">Rich GCC & Global Database</h3>
+        <p class="feat-desc" data-en="Comprehensive data on every event: skills required, prizes in SAR/AED/USD, location type, experience level, language, and registration links." data-ar="بيانات شاملة عن كل فعالية: المهارات والجوائز بالريال والدرهم والدولار وروابط التسجيل.">Comprehensive data on every event: skills required, prizes in SAR/AED/USD, location type, experience level, language, and registration links.</p>
+      </div>
+      <div class="feat-card fade-up" style="--delay:.2s">
+        <div class="feat-icon">🔔</div>
+        <h3 class="feat-title" data-en="Bilingual Smart Alerts" data-ar="تنبيهات ذكية ثنائية اللغة">Bilingual Smart Alerts</h3>
+        <p class="feat-desc" data-en="Alerts in Arabic and English for high-match events (>70%), approaching deadlines, and Hijri calendar reminders for Saudi national events." data-ar="تنبيهات بالعربية والإنجليزية مع تذكيرات بالتقويم الهجري للفعاليات الوطنية.">Alerts in Arabic and English for high-match events (&gt;70%), approaching deadlines, and Hijri calendar reminders for Saudi national events.</p>
+      </div>
+      <div class="feat-card fade-up" style="--delay:.3s">
+        <div class="feat-icon">💎</div>
+        <h3 class="feat-title" data-en="Skill Gap Analysis" data-ar="تحليل فجوة المهارات">Skill Gap Analysis</h3>
+        <p class="feat-desc" data-en="Get insights into which skills to acquire next to unlock higher-match hackathons, aligned with Saudi Vision 2030 tech priorities." data-ar="رؤى تعلّم المهارات المرتبطة بأولويات رؤية 2030 لتحسين نتائج التطابق.">Get insights into which skills to acquire next to unlock higher-match hackathons, aligned with Saudi Vision 2030 tech priorities.</p>
+      </div>
+      <div class="feat-card fade-up" style="--delay:.4s">
+        <div class="feat-icon">✈️</div>
+        <h3 class="feat-title" data-en="Abroad Hackathon Tracker" data-ar="متتبع هاكاثونات الخارج">Abroad Hackathon Tracker</h3>
+        <p class="feat-desc" data-en="Discover and apply for top international hackathons in the US, Europe, and Asia — with visa tips, travel grants, and travel-ready profiles." data-ar="اكتشف الهاكاثونات الدولية في أمريكا وأوروبا وآسيا مع نصائح التأشيرة والمنح.">Discover and apply for top international hackathons in the US, Europe, and Asia — with visa tips, travel grants, and travel-ready profiles.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISION 2030 SECTION -->
+  <section id="vision2030">
+    <div class="vision-header">
+      <span class="section-label">🇸🇦 Kingdom of Saudi Arabia</span>
+      <h2 class="section-title" style="color:#fff;">Vision 2030 &amp; the Hackathon Economy</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,.7);margin:0 auto;">Saudi Arabia's Vision 2030 is transforming the Kingdom into a global tech powerhouse — and hackathons are at the heart of this innovation revolution.</p>
+    </div>
+    <div class="vision-grid">
+      <div class="vision-card fade-up" style="--delay:.1s">
+        <span class="vision-icon">🚀</span>
+        <h3 class="vision-card-title">Digital Transformation</h3>
+        <p class="vision-card-desc">Vision 2030 targets 50%+ of GDP from non-oil sources by 2030. Tech hackathons directly fuel the innovation pipeline powering this shift.</p>
+        <div class="vision-stat">SAR 1.7T</div>
+        <div class="vision-stat-label">Total Vision 2030 Investment</div>
+        <div class="vision-hackathon-list">
+          <div class="vision-hack-item"><span class="vision-hack-name">LEAP 2026 Hackathon</span><span class="vision-hack-prize">SAR 200K</span></div>
+          <div class="vision-hack-item"><span class="vision-hack-name">NEOM Innovation Challenge</span><span class="vision-hack-prize">SAR 500K</span></div>
+          <div class="vision-hack-item"><span class="vision-hack-name">Saudi Innovation Lab</span><span class="vision-hack-prize">SAR 150K</span></div>
+        </div>
+      </div>
+      <div class="vision-card fade-up" style="--delay:.2s">
+        <span class="vision-icon">🤖</span>
+        <h3 class="vision-card-title">Priority Tech Pillars</h3>
+        <p class="vision-card-desc">HackMatch AI maps your skills to Vision 2030's core tech sectors to maximize your relevance and match score for Saudi hackathons.</p>
+        <div class="vision-progress">
+          <div class="vision-progress-title">Sector Demand Index 2026</div>
+          <div class="vision-progress-item">
+            <div class="vision-progress-label"><span>Artificial Intelligence</span><span>94%</span></div>
+            <div class="vision-progress-bar"><div class="vision-progress-fill" style="width:0" data-w="94"></div></div>
+          </div>
+          <div class="vision-progress-item">
+            <div class="vision-progress-label"><span>Cloud & Cybersecurity</span><span>88%</span></div>
+            <div class="vision-progress-bar"><div class="vision-progress-fill" style="width:0" data-w="88"></div></div>
+          </div>
+          <div class="vision-progress-item">
+            <div class="vision-progress-label"><span>FinTech & Digital Payments</span><span>85%</span></div>
+            <div class="vision-progress-bar"><div class="vision-progress-fill" style="width:0" data-w="85"></div></div>
+          </div>
+          <div class="vision-progress-item">
+            <div class="vision-progress-label"><span>Smart Cities (NEOM)</span><span>91%</span></div>
+            <div class="vision-progress-bar"><div class="vision-progress-fill" style="width:0" data-w="91"></div></div>
+          </div>
+          <div class="vision-progress-item">
+            <div class="vision-progress-label"><span>HealthTech & Biotech</span><span>79%</span></div>
+            <div class="vision-progress-bar"><div class="vision-progress-fill" style="width:0" data-w="79"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="vision-card fade-up" style="--delay:.3s">
+        <span class="vision-icon">🏙️</span>
+        <h3 class="vision-card-title">NEOM & Giga-Projects</h3>
+        <p class="vision-card-desc">NEOM, The Line, Qiddiya, and ROSHN are the world's largest innovation labs — hackathons here influence real infrastructure decisions.</p>
+        <div class="vision-stat">$500B</div>
+        <div class="vision-stat-label">NEOM Investment</div>
+        <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;">
+          <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:10px 14px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.5;">
+            🏗️ <strong style="color:#fff">The LINE</strong> — Smart city hackathons solving zero-carbon challenges
+          </div>
+          <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:10px 14px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.5;">
+            🎮 <strong style="color:#fff">Qiddiya</strong> — Gaming & Entertainment tech competitions
+          </div>
+          <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:10px 14px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.5;">
+            🌊 <strong style="color:#fff">SINDALAH</strong> — Maritime & Tourism innovation sprints
+          </div>
+        </div>
+        <div style="margin-top:20px;">
+          <a href="https://www.vision2030.gov.sa" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;text-decoration:none;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;transition:background 0.2s ease;">
+            🌐 Visit Vision2030.gov.sa →
+          </a>
+        </div>
+      </div>
+      <div class="vision-card fade-up" style="--delay:.4s">
+        <span class="vision-icon">🎓</span>
+        <h3 class="vision-card-title">Youth Empowerment</h3>
+        <p class="vision-card-desc">Vision 2030 targets 70% youth employment with tech skills. HackMatch connects Saudi students to the competitions that fast-track careers.</p>
+        <div class="vision-stat">70%</div>
+        <div class="vision-stat-label">Youth Employment Target</div>
+        <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;">
+          <div class="vision-hack-item"><span class="vision-hack-name">🏫 KAUST Hackathon</span><span class="vision-hack-prize">SAR 80K</span></div>
+          <div class="vision-hack-item"><span class="vision-hack-name">🎓 Hajj Tech Challenge</span><span class="vision-hack-prize">SAR 100K</span></div>
+          <div class="vision-hack-item"><span class="vision-hack-name">💡 Saudi MiSK Foundation</span><span class="vision-hack-prize">Incubation</span></div>
+        </div>
+        <div style="margin-top:16px;">
+          <a href="https://misk.org.sa" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;text-decoration:none;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;transition:background 0.2s ease;">
+            🌐 MiSK Foundation →
+          </a>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px;position:relative;z-index:2;">
+      <div class="vision-badge">
+        <span class="vision-emblem">🇸🇦</span>
+        HackMatch AI is proudly aligned with Saudi Vision 2030 Innovation Goals
+      </div>
+    </div>
+  </section>
+
+  <!-- GCC EVENTS -->
+  <section id="gcc">
+    <div class="gcc-header section-center">
+      <span class="section-label" data-en="Gulf Region" data-ar="منطقة الخليج">Gulf Region</span>
+      <h2 class="section-title" data-en="Top GCC Hackathons — 2026" data-ar="أبرز هاكاثونات الخليج — 2026">Top GCC Hackathons — 2026</h2>
+      <p class="section-sub" data-en="The hottest hackathons across Saudi Arabia, UAE, Kuwait, Bahrain, Qatar, and Oman — curated for 2026." data-ar="أبرز الهاكاثونات عبر المملكة العربية السعودية والإمارات والكويت والبحرين وقطر وعُمان.">The hottest hackathons across Saudi Arabia, UAE, Kuwait, Bahrain, Qatar, and Oman — curated for 2026.</p>
+    </div>
+    <div class="gcc-grid">
+      <div class="gcc-card sa fade-up" style="--delay:.05s">
+        <span class="gcc-flag">🇸🇦</span>
+        <div class="gcc-country">Saudi Arabia</div>
+        <div class="gcc-city">Riyadh · Jeddah · NEOM</div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">LEAP 2026 Hackathon</div>
+          <div class="gcc-event-meta">📅 Feb 9–12 · 📍 Riyadh · 🏆 SAR 200,000</div>
+          <span class="gcc-match-badge">96% Match</span>
+          <span class="gcc-success-rate">✓ 78% past winner rate</span>
+        </div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">Vision 2030 Innovation Challenge</div>
+          <div class="gcc-event-meta">📅 Apr 5–7 · 📍 NEOM · 🏆 SAR 500,000</div>
+          <span class="gcc-match-badge">91% Match</span>
+          <span class="gcc-success-rate">✓ 65% advancement rate</span>
+        </div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">Hajj Tech Hackathon</div>
+          <div class="gcc-event-meta">📅 May · 📍 Makkah Region · 🏆 SAR 100,000</div>
+          <span class="gcc-match-badge">84% Match</span>
+          <span class="gcc-success-rate">✓ 72% prize capture rate</span>
+        </div>
+      </div>
+      <div class="gcc-card uae fade-up" style="--delay:.1s">
+        <span class="gcc-flag">🇦🇪</span>
+        <div class="gcc-country">United Arab Emirates</div>
+        <div class="gcc-city">Dubai · Abu Dhabi · Sharjah</div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">GITEX Future Hack 2026</div>
+          <div class="gcc-event-meta">📅 Oct 13–17 · 📍 Dubai · 🏆 $75,000</div>
+          <span class="gcc-match-badge">89% Match</span>
+          <span class="gcc-success-rate">✓ 71% finalist rate</span>
+        </div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">Abu Dhabi AI Hackathon</div>
+          <div class="gcc-event-meta">📅 Mar 20–22 · 📍 ADNEC · 🏆 AED 250,000</div>
+          <span class="gcc-match-badge">87% Match</span>
+          <span class="gcc-success-rate">✓ 68% top-10 rate</span>
+        </div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">Dubai FinTech Summit Hack</div>
+          <div class="gcc-event-meta">📅 May 6–7 · 📍 DIFC · 🏆 $30,000</div>
+          <span class="gcc-match-badge">81% Match</span>
+          <span class="gcc-success-rate">✓ 60% completion rate</span>
+        </div>
+      </div>
+      <div class="gcc-card kw fade-up" style="--delay:.15s">
+        <span class="gcc-flag">🇰🇼</span>
+        <div class="gcc-country">Kuwait</div>
+        <div class="gcc-city">Kuwait City</div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">Kuwait Digital Economy Hack</div>
+          <div class="gcc-event-meta">📅 Mar 1–3 · 📍 Kuwait City · 🏆 KWD 15,000</div>
+          <span class="gcc-match-badge">78% Match</span>
+          <span class="gcc-success-rate">✓ 55% medal rate</span>
+        </div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">GovTech Kuwait Challenge</div>
+          <div class="gcc-event-meta">📅 Jun 10–12 · 📍 Virtual + Hybrid · 🏆 KWD 8,000</div>
+          <span class="gcc-match-badge">74% Match</span>
+          <span class="gcc-success-rate">✓ 62% completion rate</span>
+        </div>
+      </div>
+      <div class="gcc-card bh fade-up" style="--delay:.2s">
+        <span class="gcc-flag">🇧🇭</span>
+        <div class="gcc-country">Bahrain</div>
+        <div class="gcc-city">Manama · FinTech Bay</div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">Bahrain FinTech Bay Hackathon</div>
+          <div class="gcc-event-meta">📅 Apr 14–16 · 📍 Manama · 🏆 $20,000</div>
+          <span class="gcc-match-badge">82% Match</span>
+          <span class="gcc-success-rate">✓ 70% finalist rate</span>
+        </div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">Tamkeen Tech Accelerator Hack</div>
+          <div class="gcc-event-meta">📅 Jul 3–5 · 📍 Bahrain Bay · 🏆 BHD 8,000</div>
+          <span class="gcc-match-badge">75% Match</span>
+          <span class="gcc-success-rate">✓ 58% prize rate</span>
+        </div>
+      </div>
+      <div class="gcc-card qa fade-up" style="--delay:.25s">
+        <span class="gcc-flag">🇶🇦</span>
+        <div class="gcc-country">Qatar</div>
+        <div class="gcc-city">Doha · Qatar Science &amp; Tech Park</div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">Qatar Robohack 2026</div>
+          <div class="gcc-event-meta">📅 Feb 22–24 · 📍 Doha · 🏆 QAR 50,000</div>
+          <span class="gcc-match-badge">85% Match</span>
+          <span class="gcc-success-rate">✓ 73% finalist rate</span>
+        </div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">QSTP Tech Hackathon</div>
+          <div class="gcc-event-meta">📅 Nov 3–5 · 📍 QSTP · 🏆 QAR 30,000</div>
+          <span class="gcc-match-badge">79% Match</span>
+          <span class="gcc-success-rate">✓ 66% award rate</span>
+        </div>
+      </div>
+      <div class="gcc-card om fade-up" style="--delay:.3s">
+        <span class="gcc-flag">🇴🇲</span>
+        <div class="gcc-country">Oman</div>
+        <div class="gcc-city">Muscat · Knowledge Oasis</div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">Oman Digital Summit Hack</div>
+          <div class="gcc-event-meta">📅 Mar 8–10 · 📍 Muscat · 🏆 OMR 5,000</div>
+          <span class="gcc-match-badge">71% Match</span>
+          <span class="gcc-success-rate">✓ 52% completion rate</span>
+        </div>
+        <div class="gcc-event">
+          <div class="gcc-event-name">InnoCarnival Oman</div>
+          <div class="gcc-event-meta">📅 Sep 19–21 · 📍 Knowledge Oasis · 🏆 OMR 3,000</div>
+          <span class="gcc-match-badge">66% Match</span>
+          <span class="gcc-success-rate">✓ 48% prize rate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABROAD HACKATHONS -->
+  <section id="abroad">
+    <div class="section-center">
+      <span class="section-label" data-en="Go Global" data-ar="اذهب عالمياً">Go Global</span>
+      <h2 class="section-title" data-en="Top International Hackathons — 2026" data-ar="أبرز الهاكاثونات الدولية — 2026">Top International Hackathons — 2026</h2>
+      <p class="section-sub" data-en="The world's most prestigious hackathons — curated for GCC students ready to compete globally." data-ar="أبرز الهاكاثونات العالمية المنتقاة لطلاب الخليج المستعدين للمنافسة دولياً.">The world's most prestigious hackathons — curated for GCC students ready to compete globally.</p>
+    </div>
+    <div class="abroad-grid">
+      <div class="abroad-card fade-up" style="--delay:.05s">
+        <div class="abroad-flag">🇺🇸</div>
+        <div class="abroad-location">USA · San Francisco</div>
+        <div class="abroad-name">TechCrunch Disrupt Hackathon</div>
+        <div class="abroad-prize">🏆 $60,000 + startup spotlight</div>
+        <div class="abroad-tags"><span class="abroad-tag">Startup</span><span class="abroad-tag">AI</span><span class="abroad-tag">Web3</span></div>
+        <div class="abroad-date">📅 Oct 26–28, 2026 · 48h Sprint</div>
+        <span class="abroad-success-rate">✓ 62% finalist rate for matched profiles</span>
+        <button class="abroad-apply" onclick="window.open('https://techcrunch.com/events/tc-disrupt-2026','_blank')">Apply Now → TechCrunch Disrupt</button>
+      </div>
+      <div class="abroad-card fade-up" style="--delay:.1s">
+        <div class="abroad-flag">🇨🇦</div>
+        <div class="abroad-location">Canada · Waterloo</div>
+        <div class="abroad-name">Hack The North 2026</div>
+        <div class="abroad-prize">🏆 $50,000+ in prizes & hardware</div>
+        <div class="abroad-tags"><span class="abroad-tag">Open</span><span class="abroad-tag">AI</span><span class="abroad-tag">Hardware</span></div>
+        <div class="abroad-date">📅 Sep 4–6, 2026 · 36h Sprint</div>
+        <span class="abroad-success-rate">✓ 74% completion rate</span>
+        <button class="abroad-apply" onclick="window.open('https://hackthenorth.com','_blank')">Apply Now → Hack The North</button>
+      </div>
+      <div class="abroad-card fade-up" style="--delay:.15s">
+        <div class="abroad-flag">🇺🇸</div>
+        <div class="abroad-location">USA · MIT · Boston</div>
+        <div class="abroad-name">MIT Hacking Medicine</div>
+        <div class="abroad-prize">🏆 $35,000 + MIT network</div>
+        <div class="abroad-tags"><span class="abroad-tag">HealthTech</span><span class="abroad-tag">AI</span><span class="abroad-tag">Biotech</span></div>
+        <div class="abroad-date">📅 Mar 14–16, 2026 · 48h Sprint</div>
+        <span class="abroad-success-rate">✓ 69% mentor match rate</span>
+        <button class="abroad-apply" onclick="window.open('https://hackingmedicine.mit.edu','_blank')">Apply Now → MIT Hacking Medicine</button>
+      </div>
+      <div class="abroad-card fade-up" style="--delay:.2s">
+        <div class="abroad-flag">🌐</div>
+        <div class="abroad-location">Virtual + Local Hubs</div>
+        <div class="abroad-name">NASA Space Apps Challenge</div>
+        <div class="abroad-prize">🏆 Global Recognition + NASA badge</div>
+        <div class="abroad-tags"><span class="abroad-tag">Space</span><span class="abroad-tag">Data</span><span class="abroad-tag">Open</span></div>
+        <div class="abroad-date">📅 Oct 3–5, 2026 · 48h Global</div>
+        <span class="abroad-success-rate">✓ 81% submission rate</span>
+        <button class="abroad-apply" onclick="window.open('https://www.spaceappschallenge.org','_blank')">Apply Now → NASA Space Apps</button>
+      </div>
+      <div class="abroad-card fade-up" style="--delay:.25s">
+        <div class="abroad-flag">🇩🇪</div>
+        <div class="abroad-location">Germany · Berlin</div>
+        <div class="abroad-name">Junction Berlin 2026</div>
+        <div class="abroad-prize">🏆 €25,000 + EU investment network</div>
+        <div class="abroad-tags"><span class="abroad-tag">CleanTech</span><span class="abroad-tag">Hardware</span><span class="abroad-tag">AI</span></div>
+        <div class="abroad-date">📅 Apr 17–19, 2026 · 48h Sprint</div>
+        <span class="abroad-success-rate">✓ 57% award rate</span>
+        <button class="abroad-apply" onclick="window.open('https://www.junction2024.com','_blank')">Apply Now → Junction Berlin</button>
+      </div>
+      <div class="abroad-card fade-up" style="--delay:.3s">
+        <div class="abroad-flag">🇸🇬</div>
+        <div class="abroad-location">Singapore</div>
+        <div class="abroad-name">FinHack Asia 2026</div>
+        <div class="abroad-prize">🏆 SGD 50,000 + MAS partnerships</div>
+        <div class="abroad-tags"><span class="abroad-tag">FinTech</span><span class="abroad-tag">Blockchain</span><span class="abroad-tag">AI</span></div>
+        <div class="abroad-date">📅 Jun 5–7, 2026 · 48h Sprint</div>
+        <span class="abroad-success-rate">✓ 64% finalist rate</span>
+        <button class="abroad-apply" onclick="window.open('https://www.fintechfestival.sg','_blank')">Apply Now → FinHack Asia</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:24px;">
+      <p class="abroad-tip"><strong>💡 GCC Travel Tip:</strong> Many international hackathons offer travel stipends for GCC participants. Filter by "Travel Grant Available" in your dashboard to find funded opportunities.</p>
+    </div>
+  </section>
+
+  <!-- PROFILE BUILDER -->
+  <section id="profile">
+    <div class="profile-grid">
+      <div class="profile-form">
+        <span class="section-label" data-en="Profile Builder" data-ar="منشئ الملف الشخصي">Profile Builder</span>
+        <h2 class="section-title" data-en="Build Your Matcher Profile" data-ar="أنشئ ملفك الشخصي للمطابقة">Build Your Matcher Profile</h2>
+        <p class="section-sub profile-sub" data-en="The more you share, the better your hackathon matches. All fields are optional — start with what you know." data-ar="كلما شاركت أكثر، كانت نتائج تطابقك أفضل.">The more you share, the better your hackathon matches. All fields are optional — start with what you know.</p>
+        <div class="form-group">
+          <label class="form-label" data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+          <input class="form-input" type="text" id="profile-name" placeholder="Ahmed Al-Rashid" oninput="syncProfileName(this.value)"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-en="Your Skills" data-ar="مهاراتك">Your Skills</label>
+          <div class="skills-cloud" id="skills-cloud">
+            <span class="skill-chip" data-skill="Python">Python</span>
+            <span class="skill-chip selected" data-skill="React">React</span>
+            <span class="skill-chip selected" data-skill="ML/AI">ML/AI</span>
+            <span class="skill-chip" data-skill="Node.js">Node.js</span>
+            <span class="skill-chip" data-skill="Figma">Figma</span>
+            <span class="skill-chip" data-skill="Blockchain">Blockchain</span>
+            <span class="skill-chip" data-skill="Flutter">Flutter</span>
+            <span class="skill-chip" data-skill="Data Science">Data Science</span>
+            <span class="skill-chip" data-skill="Cybersecurity">Cybersecurity</span>
+            <span class="skill-chip" data-skill="IoT">IoT</span>
+            <span class="skill-chip" data-skill="Cloud/AWS">Cloud/AWS</span>
+            <span class="skill-chip" data-skill="Arabic NLP">Arabic NLP</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-en="Interests" data-ar="الاهتمامات">Interests</label>
+          <div class="skills-cloud" id="interests-cloud">
+            <span class="skill-chip selected" data-skill="HealthTech">HealthTech</span>
+            <span class="skill-chip" data-skill="FinTech">FinTech</span>
+            <span class="skill-chip selected" data-skill="Smart Cities">Smart Cities</span>
+            <span class="skill-chip" data-skill="EdTech">EdTech</span>
+            <span class="skill-chip" data-skill="CleanTech">CleanTech</span>
+            <span class="skill-chip" data-skill="AgriTech">AgriTech</span>
+            <span class="skill-chip" data-skill="GovTech">GovTech</span>
+            <span class="skill-chip" data-skill="Space Tech">Space Tech</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-en="Experience Level" data-ar="مستوى الخبرة">Experience Level</label>
+          <select class="form-select">
+            <option data-en="Student / First Hackathon" data-ar="طالب / هاكاثون أول">Student / First Hackathon</option>
+            <option data-en="Beginner (1–2 hackathons)" data-ar="مبتدئ (1-2 هاكاثون)">Beginner (1–2 hackathons)</option>
+            <option data-en="Intermediate (3–7 hackathons)" data-ar="متوسط (3-7 هاكاثونات)" selected>Intermediate (3–7 hackathons)</option>
+            <option data-en="Advanced (8+ hackathons)" data-ar="متقدم (8+ هاكاثونات)">Advanced (8+ hackathons)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-en="Location" data-ar="الموقع">Location</label>
+          <select class="form-select">
+            <option>🇸🇦 Riyadh, Saudi Arabia</option>
+            <option>🇸🇦 Jeddah, Saudi Arabia</option>
+            <option>🇸🇦 NEOM, Saudi Arabia</option>
+            <option>🇦🇪 Dubai, UAE</option>
+            <option>🇦🇪 Abu Dhabi, UAE</option>
+            <option>🇶🇦 Doha, Qatar</option>
+            <option>🇰🇼 Kuwait City, Kuwait</option>
+            <option>🇧🇭 Manama, Bahrain</option>
+            <option>🇴🇲 Muscat, Oman</option>
+          </select>
+        </div>
+        <button class="btn-hero btn-hero-primary btn-profile-cta" onclick="handleFindMatches(event)" data-en="🎯 Find My Matches →" data-ar="🎯 اعثر على تطابقاتي ←">🎯 Find My Matches →</button>
+      </div>
+      <div class="profile-visual">
+        <div class="profile-visual-card">
+          <div class="avatar-placeholder">🧑‍💻</div>
+          <div class="profile-name-visual" id="profile-name-display">Your Name</div>
+          <div class="profile-role-visual">GCC Hackathon Matcher · Riyadh 🇸🇦</div>
+          <div class="skill-pills" id="skill-pills-preview">
+            <span class="skill-pill">React</span>
+            <span class="skill-pill">ML/AI</span>
+            <span class="skill-pill">HealthTech</span>
+            <span class="skill-pill">Smart Cities</span>
+          </div>
+          <div class="match-result-preview">
+            <div class="match-result-title" data-en="Your Top Matches" data-ar="أفضل تطابقاتك">Your Top Matches</div>
+            <div class="mini-match-item"><span class="mini-match-name">LEAP 2026 Hackathon 🇸🇦</span><span class="mini-match-score">96%</span></div>
+            <div class="mini-match-item"><span class="mini-match-name">Vision 2030 Challenge 🇸🇦</span><span class="mini-match-score">91%</span></div>
+            <div class="mini-match-item"><span class="mini-match-name">Abu Dhabi AI Hackathon 🇦🇪</span><span class="mini-match-score">87%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HACKATHON PARTNER POTENTIAL -->
+  <section id="partner">
+    <div class="partner-header section-center">
+      <span class="section-label">🤝 AI-Powered</span>
+      <h2 class="section-title">Hackathon Partner Potential</h2>
+      <p class="section-sub">Let our AI scan your profile and find the best-matched collaborators on HackMatch. Connect instantly and start building together.</p>
+    </div>
+    <div class="partner-grid">
+      <div class="partner-find-panel">
+        <h3 class="partner-find-title">🤖 Find Your Ideal Teammate</h3>
+        <p class="partner-find-sub">Our AI compares your skills, interests, location, and experience with other HackMatch users to surface your highest-compatibility partners.</p>
+        <button class="partner-ai-btn" id="find-partners-btn" onclick="findPartners()">
+          <span>✨ Analyze My Profile &amp; Find Partners</span>
+        </button>
+        <div class="partner-results" id="partner-results" style="display:none;"></div>
+      </div>
+      <div class="msg-panel" id="msg-panel">
+        <div class="msg-no-chat" id="msg-no-chat">
+          <span class="msg-no-chat-icon">💬</span>
+          <span>Select a partner to start messaging</span>
+        </div>
+        <div class="msg-header" id="msg-header" style="display:none;">
+          <div class="msg-header-avatar" id="msg-header-avatar">👤</div>
+          <div>
+            <div class="msg-header-name" id="msg-header-name">Partner</div>
+            <div class="msg-header-status">🟢 Online</div>
+          </div>
+        </div>
+        <div class="msg-thread" id="msg-thread" style="display:none;"></div>
+        <div class="msg-input-wrap" id="msg-input-wrap" style="display:none;">
+          <input class="msg-input" id="msg-input" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+          <button class="msg-send-btn" onclick="sendMsg()">Send</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD PREVIEW -->
+  <section id="dashboard">
+    <div class="section-center">
+      <span class="section-label" data-en="Your AI Dashboard" data-ar="لوحة تحكم الذكاء الاصطناعي">Your AI Dashboard</span>
+      <h2 class="section-title" data-en="Your Personalized Hackathon Hub" data-ar="مركز هاكاثونك الشخصي">Your Personalized Hackathon Hub</h2>
+      <p class="section-sub" data-en="AI-ranked matches, expiring registrations, GCC picks, and saved events — all in one place." data-ar="تطابقات مرتبة بالذكاء الاصطناعي، تسجيلات منتهية الصلاحية، واختيارات خليجية — في مكان واحد.">AI-ranked matches, expiring registrations, GCC picks, and saved events — all in one place.</p>
+    </div>
+    <!-- Difficulty Setting -->
+    <div style="margin:24px auto 0;max-width:700px;background:rgba(255,255,255,.06);border:1px solid rgba(212,188,148,.18);border-radius:16px;padding:20px 28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;">
+        <div style="font-size:12px;font-weight:700;color:var(--accent-warm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">⚙️ Difficulty Level</div>
+        <div style="font-size:13px;color:rgba(245,240,232,.6);">Filter hackathons based on your occupation &amp; skill level</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="diff-btn active" data-diff="all" onclick="setDifficulty(this,'all')" style="padding:8px 16px;border-radius:20px;border:1px solid rgba(212,188,148,.35);background:var(--caramel);color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:all .25s;font-family:inherit;">All Levels</button>
+        <button class="diff-btn" data-diff="beginner" onclick="setDifficulty(this,'beginner')" style="padding:8px 16px;border-radius:20px;border:1px solid rgba(212,188,148,.35);background:transparent;color:rgba(245,240,232,.6);font-size:12px;font-weight:700;cursor:pointer;transition:all .25s;font-family:inherit;">🟢 Beginner</button>
+        <button class="diff-btn" data-diff="intermediate" onclick="setDifficulty(this,'intermediate')" style="padding:8px 16px;border-radius:20px;border:1px solid rgba(212,188,148,.35);background:transparent;color:rgba(245,240,232,.6);font-size:12px;font-weight:700;cursor:pointer;transition:all .25s;font-family:inherit;">🟡 Intermediate</button>
+        <button class="diff-btn" data-diff="advanced" onclick="setDifficulty(this,'advanced')" style="padding:8px 16px;border-radius:20px;border:1px solid rgba(212,188,148,.35);background:transparent;color:rgba(245,240,232,.6);font-size:12px;font-weight:700;cursor:pointer;transition:all .25s;font-family:inherit;">🔴 Advanced</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:11px;color:rgba(245,240,232,.5);">Occupation:</span>
+        <select id="dash-occupation-filter" onchange="renderDashCards(currentDashTab)" style="padding:7px 12px;border:1px solid rgba(212,188,148,.35);border-radius:10px;background:rgba(255,255,255,.06);color:rgba(245,240,232,.8);font-size:12px;font-family:inherit;outline:none;cursor:pointer;">
+          <option value="all">All</option>
+          <option value="student">🎓 Student</option>
+          <option value="developer">👩‍💻 Developer</option>
+          <option value="designer">🎨 Designer</option>
+          <option value="datascientist">📊 Data Scientist</option>
+        </select>
+      </div>
+    </div>
+    <div class="dashboard-preview" style="margin-top:24px;">
+      <div class="dash-tabs" id="dash-tabs">
+        <button class="dash-tab active" data-tab="matches" data-en="🎯 Top Matches" data-ar="🎯 أفضل التطابقات">🎯 Top Matches</button>
+        <button class="dash-tab" data-tab="gcc" data-en="🇸🇦 GCC" data-ar="🇸🇦 الخليج">🇸🇦 GCC</button>
+        <button class="dash-tab" data-tab="abroad" data-en="✈️ Abroad" data-ar="✈️ الخارج">✈️ Abroad</button>
+        <button class="dash-tab" data-tab="expiring" data-en="⚠️ Expiring" data-ar="⚠️ تنتهي قريباً">⚠️ Expiring</button>
+        <button class="dash-tab" data-tab="saved" data-en="🔖 Saved" data-ar="🔖 المحفوظات">🔖 Saved</button>
+      </div>
+      <div class="dash-cards" id="dash-cards"></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" style="background:var(--parchment);">
+    <div class="section-center">
+      <span class="section-label" data-en="Success Stories" data-ar="قصص النجاح">Success Stories</span>
+      <h2 class="section-title" data-en="GCC Hackers Who Won" data-ar="المبدعون الخليجيون الذين فازوا">GCC Hackers Who Won</h2>
+      <p class="section-sub" data-en="Real stories from real GCC students who used HackMatch to find, apply for, and win hackathons across the region and world." data-ar="قصص حقيقية من طلاب خليجيين استخدموا HackMatch للعثور على هاكاثونات والفوز بها.">Real stories from real GCC students who used HackMatch.</p>
+    </div>
+    <div class="testimonials-grid" style="margin-top:56px;">
+      <div class="testi-card fade-up" style="--delay:.1s">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"HackMatch's GCC filter found me LEAP 2026 — which I never would have discovered alone. Scored 96% match and made it to the finals. The AI analysis was spot-on."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#D4A882;">🧕</div>
+          <div>
+            <div class="testi-name">Sara Al-Otaibi</div>
+            <div class="testi-role">CS Student, KFUPM · Dhahran 🇸🇦</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up" style="--delay:.2s">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"As a UAE-based developer, I was matched to GITEX Future Hack at 89%. Won 2nd place. The skill breakdown helped me prepare exactly the right tech stack."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#A0C4D8;">👨‍💻</div>
+          <div>
+            <div class="testi-name">Khalid Al-Mansoori</div>
+            <div class="testi-role">Full Stack Dev, NYU Abu Dhabi · UAE 🇦🇪</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up" style="--delay:.3s">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The skill gap analysis showed me to learn Arabic NLP — now I'm in the top 5% of matches for GCC events. Three hackathons won in one year!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#C4A882;">👨‍💻</div>
+          <div>
+            <div class="testi-name">Omar Al-Rashid</div>
+            <div class="testi-role">Data Science Student, QU · Doha 🇶🇦</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USER SECTION (hidden - content lives in popup) -->
+  <div id="user-section" style="display:none;"></div>
+
+  <!-- WOMEN IN TECH SUPPORT FEATURE -->
+  <section id="women-tech">
+    <div class="women-header fade-up">
+      <span class="section-label">💜 Dedicated Support</span>
+      <h2 class="section-title">Women in Tech Support Feature</h2>
+      <p class="section-sub">A dedicated space empowering women in tech — curated hackathons, survival guides, and smart calendar tools to help you compete and win.</p>
+    </div>
+    <div class="women-grid">
+      <!-- Women-Focused Hackathon Filter -->
+      <div class="women-filter-panel fade-up" style="--delay:.1s">
+        <div class="women-filter-title">🔎 Women-Focused Hackathons</div>
+        <div class="women-filter-sub">Hackathons designed to empower, celebrate, and invest in women innovators across the GCC and globally.</div>
+        <div class="women-hack-list">
+          <div class="women-hack-item">
+            <div class="women-hack-name">She Builds — GCC Edition 🇸🇦</div>
+            <div class="women-hack-meta">📅 Mar 8–9, 2026 · 📍 Riyadh · 🏆 SAR 120,000</div>
+            <div class="women-hack-tags"><span class="women-hack-tag">Women-Only</span><span class="women-hack-tag">AI</span><span class="women-hack-tag">Vision 2030</span></div>
+            <button class="women-apply-btn" onclick="addToCalendar('She Builds GCC Edition','2026-03-08','2026-03-09','Riyadh, Saudi Arabia')">📅 Add to Calendar · Apply Now →</button>
+          </div>
+          <div class="women-hack-item">
+            <div class="women-hack-name">Women Techmakers Hackathon 🌐</div>
+            <div class="women-hack-meta">📅 Apr 18–19, 2026 · 📍 Virtual + Hubs · 🏆 $30,000</div>
+            <div class="women-hack-tags"><span class="women-hack-tag">Google Backed</span><span class="women-hack-tag">Open Tech</span><span class="women-hack-tag">Global</span></div>
+            <button class="women-apply-btn" onclick="addToCalendar('Women Techmakers Hackathon','2026-04-18','2026-04-19','Virtual')">📅 Add to Calendar · Apply Now →</button>
+          </div>
+          <div class="women-hack-item">
+            <div class="women-hack-name">Girls in Tech MENA Hack 🇦🇪</div>
+            <div class="women-hack-meta">📅 Jun 5–7, 2026 · 📍 Dubai · 🏆 AED 100,000</div>
+            <div class="women-hack-tags"><span class="women-hack-tag">Women-Focused</span><span class="women-hack-tag">FinTech</span><span class="women-hack-tag">SmartCity</span></div>
+            <button class="women-apply-btn" onclick="addToCalendar('Girls in Tech MENA Hack','2026-06-05','2026-06-07','Dubai, UAE')">📅 Add to Calendar · Apply Now →</button>
+          </div>
+          <div class="women-hack-item">
+            <div class="women-hack-name">WE Hack — Women Empowerment Series 🇶🇦</div>
+            <div class="women-hack-meta">📅 Sep 20, 2026 · 📍 Doha · 🏆 QAR 60,000</div>
+            <div class="women-hack-tags"><span class="women-hack-tag">Women-Led</span><span class="women-hack-tag">HealthTech</span><span class="women-hack-tag">EdTech</span></div>
+            <button class="women-apply-btn" onclick="addToCalendar('WE Hack Women Empowerment','2026-09-20','2026-09-21','Doha, Qatar')">📅 Add to Calendar · Apply Now →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hackathon Survival Guide Generator + Calendar Sync -->
+      <div style="display:flex;flex-direction:column;gap:20px;">
+        <div class="survival-panel fade-up" style="--delay:.2s">
+          <div class="survival-title">🛡️ Hackathon Survival Guide Generator</div>
+          <div class="survival-sub">Click "Prepare Me" and get a personalized hackathon survival plan — what to bring, your dev stack, hour-by-hour strategy, and pitch structure.</div>
+          <button class="prepare-btn" id="prepare-btn" onclick="generateSurvivalGuide()">
+            <span>🚀 Prepare Me</span>
+          </button>
+          <div class="survival-output" id="survival-output">
+            <div class="survival-section-title">🎒 What to Bring</div>
+            <div class="survival-item">Laptop + charger + backup power bank (minimum 20,000mAh)</div>
+            <div class="survival-item">Noise-cancelling headphones for deep focus sessions</div>
+            <div class="survival-item">Healthy snacks: dates, nuts, protein bars — avoid sugar crashes</div>
+            <div class="survival-item">Offline docs: API references, cheat sheets, design patterns</div>
+            <div class="survival-item">Business cards or LinkedIn QR code for networking</div>
+            <div class="survival-item">Change of clothes &amp; hygiene kit for overnight events</div>
+            <div class="survival-section-title">💻 Recommended Dev Stack</div>
+            <div class="survival-item">Frontend: React + Tailwind CSS — fast, beautiful, judge-friendly</div>
+            <div class="survival-item">Backend: Node.js + Express or FastAPI (Python) — rapid prototyping</div>
+            <div class="survival-item">AI/ML: HuggingFace models, OpenAI API, or Google Gemini</div>
+            <div class="survival-item">Database: Supabase or Firebase — serverless, instant setup</div>
+            <div class="survival-item">Deploy: Vercel (30 seconds) or Netlify for instant live demo</div>
+            <div class="survival-section-title">⏱️ Hour 1–24 Strategy</div>
+            <div class="survival-item">Hours 1–2: Team alignment, problem selection, define MVP scope</div>
+            <div class="survival-item">Hours 3–8: Core feature development — build the demo, not the product</div>
+            <div class="survival-item">Hours 9–14: Integration, bug fixing, basic UI polish</div>
+            <div class="survival-item">Hours 15–20: Slide deck, demo video, pitch narrative refinement</div>
+            <div class="survival-item">Hours 21–23: Sleep! A rested mind pitches 40% more effectively</div>
+            <div class="survival-item">Hour 24: Final run-through, tech check, prepare backup demo</div>
+            <div class="survival-section-title">🎤 Pitch Structure (5-minute formula)</div>
+            <div class="survival-item">Min 0–1: Hook — start with a powerful problem story or statistic</div>
+            <div class="survival-item">Min 1–2: Solution — show your demo first, explain second</div>
+            <div class="survival-item">Min 2–3: Impact &amp; market — why this matters at scale</div>
+            <div class="survival-item">Min 3–4: Tech stack &amp; innovation — what makes yours unique</div>
+            <div class="survival-item">Min 4–5: Team, roadmap, Vision 2030 alignment (for GCC events)</div>
+            <button class="calendar-btn" onclick="addToCalendar('HackMatch Hackathon Session','2026-03-08','2026-03-09','GCC Region')">📅 Add to Google Calendar</button>
+          </div>
+        </div>
+
+        <!-- Smart Calendar Sync -->
+        <div class="survival-panel fade-up" style="--delay:.3s">
+          <div class="survival-title">📅 Smart Hackathon Calendar Sync</div>
+          <div class="survival-sub">One click to add any hackathon to your Google Calendar and never miss a deadline again.</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.06);border-radius:10px;padding:12px 16px;border:1px solid rgba(255,255,255,.12);">
+              <div>
+                <div style="font-size:13px;font-weight:700;color:#fff;">LEAP 2026 Hackathon 🇸🇦</div>
+                <div style="font-size:11px;color:rgba(255,255,255,.5);">Feb 9–12, 2026 · Riyadh</div>
+              </div>
+              <button onclick="addToCalendar('LEAP 2026 Hackathon','2026-02-09','2026-02-12','Riyadh, Saudi Arabia')" style="padding:6px 12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.12)'">📅 Add</button>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.06);border-radius:10px;padding:12px 16px;border:1px solid rgba(255,255,255,.12);">
+              <div>
+                <div style="font-size:13px;font-weight:700;color:#fff;">GITEX Future Hack 🇦🇪</div>
+                <div style="font-size:11px;color:rgba(255,255,255,.5);">Oct 13–17, 2026 · Dubai</div>
+              </div>
+              <button onclick="addToCalendar('GITEX Future Hack 2026','2026-10-13','2026-10-17','Dubai, UAE')" style="padding:6px 12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.12)'">📅 Add</button>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.06);border-radius:10px;padding:12px 16px;border:1px solid rgba(255,255,255,.12);">
+              <div>
+                <div style="font-size:13px;font-weight:700;color:#fff;">She Builds GCC 💜</div>
+                <div style="font-size:11px;color:rgba(255,255,255,.5);">Mar 8–9, 2026 · Riyadh</div>
+              </div>
+              <button onclick="addToCalendar('She Builds GCC Edition','2026-03-08','2026-03-09','Riyadh, Saudi Arabia')" style="padding:6px 12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.12)'">📅 Add</button>
+            </div>
+          </div>
+          <button class="calendar-btn" onclick="addAllToCalendar()">📅 Sync All My Saved Hackathons to Google Calendar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <span class="section-label" data-en="Ready to Hack?" data-ar="هل أنت مستعد للهاكاثون؟">Ready to Hack?</span>
+    <h2 class="section-title cta-title" data-en="Your Next Hackathon is Waiting" data-ar="هاكاثونك القادم في انتظارك">Your Next Hackathon is Waiting</h2>
+    <p class="section-sub cta-sub" data-en="Join GCC students discovering perfectly-matched hackathon opportunities — in Riyadh, Dubai, and across the globe." data-ar="انضم لطلاب الخليج الذين يكتشفون فرص هاكاثون مثالية في الرياض ودبي وحول العالم.">Join GCC students discovering perfectly-matched hackathon opportunities — in Riyadh, Dubai, and across the globe.</p>
+    <div class="cta-actions">
+      <a href="#profile" class="btn-hero btn-cta-primary" data-en="Build Your Profile Now →" data-ar="أنشئ ملفك الشخصي الآن ←">Build Your Profile Now →</a>
+      <a href="#gcc" class="btn-hero btn-cta-secondary" data-en="Browse GCC Events" data-ar="تصفح فعاليات الخليج">Browse GCC Events</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo">
+          <div class="footer-logo-icon">H</div>
+          <span class="footer-logo-text">HackMatch AI</span>
+        </a>
+        <p class="footer-tagline" data-en="Connecting Saudi Arabia and GCC students with hackathons that match their skills, passion, and ambition — locally and globally." data-ar="ربط طلاب المملكة ودول الخليج بالهاكاثونات المناسبة محلياً وعالمياً.">Connecting Saudi Arabia and GCC students with hackathons that match their skills, passion, and ambition — locally and globally.</p>
+      </div>
+      <div>
+        <div class="footer-col-title" data-en="Product" data-ar="المنتج">Product</div>
+        <ul class="footer-links">
+          <li><a href="#features" data-en="Features" data-ar="المميزات">Features</a></li>
+          <li><a href="#vision2030" data-en="Vision 2030" data-ar="رؤية 2030">Vision 2030</a></li>
+          <li><a href="#gcc" data-en="GCC Events" data-ar="فعاليات الخليج">GCC Events</a></li>
+          <li><a href="#abroad" data-en="Abroad" data-ar="الخارج">Abroad</a></li>
+          <li><a href="#partner" data-en="Find Partners" data-ar="إيجاد شركاء">Find Partners</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title" data-en="Company" data-ar="الشركة">Company</div>
+        <ul class="footer-links">
+          <li><a href="#" data-en="About" data-ar="عن الشركة">About</a></li>
+          <li><a href="#" data-en="Blog" data-ar="المدونة">Blog</a></li>
+          <li><a href="#" data-en="Careers" data-ar="الوظائف">Careers</a></li>
+          <li><a href="#" data-en="Partners" data-ar="الشراكات">Partners</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title" data-en="Legal" data-ar="القانونية">Legal</div>
+        <ul class="footer-links">
+          <li><a href="#" data-en="Privacy Policy" data-ar="سياسة الخصوصية">Privacy Policy</a></li>
+          <li><a href="#" data-en="Terms of Service" data-ar="شروط الخدمة">Terms of Service</a></li>
+          <li><a href="#" data-en="PDPL (KSA)" data-ar="نظام حماية البيانات الشخصية">PDPL (KSA)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-en="© 2026 HackMatch AI. All rights reserved." data-ar="© 2026 HackMatch AI. جميع الحقوق محفوظة.">© 2026 HackMatch AI. All rights reserved.</span>
+      <span data-en="🇸🇦 Built for the GCC hacker community." data-ar="🇸🇦 صُنع لمجتمع الهاكاثون في الخليج.">🇸🇦 Built for the GCC hacker community.</span>
+    </div>
+  </footer>
+
+  <!-- AUTH MODAL -->
+  <div class="modal-overlay" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+      <h2 class="modal-title" id="modal-title" data-en="Welcome to HackMatch" data-ar="مرحباً بك في HackMatch">Welcome to HackMatch</h2>
+      <p class="modal-sub" data-en="Sign in or create an account to find your perfect hackathon match." data-ar="سجّل دخولك أو أنشئ حساباً للعثور على هاكاثونك المثالي.">Sign in or create an account to find your perfect hackathon match.</p>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-signin" onclick="switchAuthTab('signin')" data-en="Sign In" data-ar="تسجيل الدخول">Sign In</button>
+        <button class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')" data-en="Create Account" data-ar="إنشاء حساب">Create Account</button>
+      </div>
+      <!-- SIGN IN FORM -->
+      <div class="auth-form active" id="form-signin">
+        <button class="oauth-btn" id="google-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          <span data-en="Continue with Google" data-ar="المتابعة عبر Google">Continue with Google</span>
+        </button>
+        <button class="oauth-btn" id="github-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span data-en="Continue with GitHub" data-ar="المتابعة عبر GitHub">Continue with GitHub</span>
+        </button>
+        <div class="divider" data-en="or sign in with email" data-ar="أو سجل الدخول بالبريد الإلكتروني">or sign in with email</div>
+        <div class="modal-form-group">
+          <label class="modal-label">Email Address</label>
+          <input class="modal-input" type="email" id="signin-email" placeholder="you@example.com"/>
+          <div class="modal-error" id="signin-email-err">Please enter a valid email address.</div>
+        </div>
+        <div class="modal-form-group">
+          <label class="modal-label">Password</label>
+          <input class="modal-input" type="password" id="signin-password" placeholder="••••••••"/>
+          <div class="modal-error" id="signin-pass-err">Password must be at least 6 characters.</div>
+        </div>
+        <button class="btn-primary btn-modal-submit" id="signin-submit">Sign In →</button>
+        <div class="modal-switch">
+          <span>Don't have an account?</span>
+          <a onclick="switchAuthTab('signup')"> Create one →</a>
+        </div>
+      </div>
+      <!-- SIGN UP FORM -->
+      <div class="auth-form" id="form-signup">
+        <button class="oauth-btn" id="google-btn-signup">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          <span>Sign up with Google</span>
+        </button>
+        <div class="divider">or create account with email</div>
+        <div class="modal-form-group">
+          <label class="modal-label">Full Name</label>
+          <input class="modal-input" type="text" id="signup-name" placeholder="Ahmed Al-Rashid"/>
+          <div class="modal-error" id="signup-name-err">Please enter your name.</div>
+        </div>
+        <div class="modal-form-group">
+          <label class="modal-label">Email Address</label>
+          <input class="modal-input" type="email" id="signup-email" placeholder="you@example.com"/>
+          <div class="modal-error" id="signup-email-err">Please enter a valid email.</div>
+        </div>
+        <div class="modal-form-group">
+          <label class="modal-label">Password</label>
+          <input class="modal-input" type="password" id="signup-password" placeholder="Min. 6 characters"/>
+          <div class="modal-error" id="signup-pass-err">Password must be at least 6 characters.</div>
+        </div>
+        <button class="btn-primary btn-modal-submit" id="signup-submit">Create Account →</button>
+        <div class="modal-switch">
+          <span>Already have an account?</span>
+          <a onclick="switchAuthTab('signin')"> Sign in →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<script src="hackmatch_v3.js" defer></script>
+</body>
+</html>
